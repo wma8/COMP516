@@ -1,0 +1,1 @@
+db.movies.aggregate([{$group: {_id: {year: {$substr: ["$release_date", 7, -1]}, summary: "$summary"}, count: {$sum: 1}}}, {$sort:{"_id.year": 1, "_id.summary": -1}},  {$match: {"_id.year": {$ne: ""}}},{$limit:100}, {$project:{_id:0, count:1, year:"$_id.year", summary:"$_id.summary"}}]).toArray()
